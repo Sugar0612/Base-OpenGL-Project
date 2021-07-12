@@ -1,3 +1,3 @@
 # Base-OpenGL-Project
-## OpenGL ԭ��ͼ
+## OpenGL 原理图
 # ![image](./image/OpenGL.png)
