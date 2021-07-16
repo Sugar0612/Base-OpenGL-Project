@@ -8,22 +8,36 @@ using namespace::std;
 float vertices[] = {
 	-0.5f, -0.5f, 0.0f,
 	 0.5f, -0.5f, 0.0f,
-	 0.0f,  0.5f, 0.0f
+	 0.0f,  0.5f, 0.0f,
+	 //0.5f, -0.5f, 0.0f,
+	 //0.0f,  0.5f, 0.0f,
+	 0.8f, 0.6f, 0.0f
 };  // 三角形坐标
+
+// draw index 
+unsigned int index[] = {
+	0, 1, 2,
+	1, 2, 3
+};
 
 // Src (vertex and fragment)
 const char *vertexShaderSource = 
 	"#version 330 core \n"
     "layout (location = 0) in vec3 aPos; \n"
+	"out vec4 vertexColor;					\n"
     "void main(){ \n"
-    "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);}\n";
+    "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);  \n"
+	"	vertexColor = vec4(1.0, 0, 0, 1.0); \n"
+"} \n ";
 
 
 const char *fragmentShaderSource =
 "#version 330 core	\n						  "
+"in vec4 vertexColor;		\n				  "
+"uniform vec4 ourColor;    \n				  "
 "out vec4 FragColor;	\n					  "
 "void main(){			\n					  "
-"	FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);}\n";
+"	FragColor = ourColor;}	\n			  ";
 
 
 
@@ -68,6 +82,13 @@ int main() {
 
 	glViewport(0, 0, 800, 600); // 设置窗口像素值 (第三参数 第四参数是 渲染宽高的像素值)
 
+	// Draw line
+	/*glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);*/
+
+	//// 剔除某个面
+	//glEnable(GL_CULL_FACE);
+	//glCullFace(GL_BACK);
+
 	// Create VAO and VBO  (VBO ==> VAO)
 	unsigned int VAO;
 	glGenVertexArrays(1, &VAO); // Create one VAO
@@ -77,6 +98,12 @@ int main() {
 	glGenBuffers(1, &VBO); // Create one VBO
 	glBindBuffer(GL_ARRAY_BUFFER, VBO); // VBO 类型
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); // 将 vertices 数据放到 VBO中
+
+	// Create EBO (EBO ==> VAO)
+	unsigned int EBO;
+	glGenBuffers(1, &EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(index), index, GL_STATIC_DRAW);
 
 	// Create vertexShader and fragmentShader
 	unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -106,10 +133,21 @@ int main() {
 		glClearColor(0.2, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		// draw Triangle
+		// draw Triangle use VBO
 		glBindVertexArray(VAO);
+		//glDrawArrays(GL_TRIANGLES, 0, 6); // triangles
+
+		// 利用定时器创建闪烁颜色
+		float timeValue = glfwGetTime();
+		float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
+		int ColorPos = glGetUniformLocation(shaderProgram, "ourColor");
+
 		glUseProgram(shaderProgram);
-		glDrawArrays(GL_TRIANGLES, 0, 3); // triangles
+
+		glUniform4f(ColorPos, 1.0f, greenValue, 0.0f, 1.0f);
+
+		// draw Triangles use EBO
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		// 消除屏幕因为渲染出现伪影的状况(two buffers)。
 		glfwSwapBuffers(glfwWin); 
