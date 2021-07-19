@@ -1,17 +1,19 @@
 #define GLEW_STATIC  // 使用 glew32s.lib静态库
 
-#include<iostream>
-#include<GL/glew.h>
-#include<GLFW/glfw3.h>
+#include <iostream>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include "Shader.h"
+
 using namespace::std;
 
 float vertices[] = {
-	-0.5f, -0.5f, 0.0f,
-	 0.5f, -0.5f, 0.0f,
-	 0.0f,  0.5f, 0.0f,
+	-0.5f, -0.5f, 0.0f, 1.0f, 0, 0,
+	 0.5f, -0.5f, 0.0f, 0, 1.0f, 0,
+	 0.0f,  0.5f, 0.0f, 0, 0, 1.0f,
 	 //0.5f, -0.5f, 0.0f,
 	 //0.0f,  0.5f, 0.0f,
-	 0.8f, 0.6f, 0.0f
+	 0.8f, 0.6f, 0.0f, 1.0f, 1.0f, 0
 };  // 三角形坐标
 
 // draw index 
@@ -19,25 +21,6 @@ unsigned int index[] = {
 	0, 1, 2,
 	1, 2, 3
 };
-
-// Src (vertex and fragment)
-const char *vertexShaderSource = 
-	"#version 330 core \n"
-    "layout (location = 0) in vec3 aPos; \n"
-	"out vec4 vertexColor;					\n"
-    "void main(){ \n"
-    "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);  \n"
-	"	vertexColor = vec4(1.0, 0, 0, 1.0); \n"
-"} \n ";
-
-
-const char *fragmentShaderSource =
-"#version 330 core	\n						  "
-"in vec4 vertexColor;		\n				  "
-"uniform vec4 ourColor;    \n				  "
-"out vec4 FragColor;	\n					  "
-"void main(){			\n					  "
-"	FragColor = ourColor;}	\n			  ";
 
 
 
@@ -81,6 +64,7 @@ int main() {
 	}
 
 	glViewport(0, 0, 800, 600); // 设置窗口像素值 (第三参数 第四参数是 渲染宽高的像素值)
+	Shader *myShader = new Shader("vertexSource.txt", "fragmentSource.txt");
 
 	// Draw line
 	/*glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);*/
@@ -105,25 +89,14 @@ int main() {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(index), index, GL_STATIC_DRAW);
 
-	// Create vertexShader and fragmentShader
-	unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-	glCompileShader(vertexShader); // 编译
-
-	unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	glCompileShader(fragmentShader); // 编译
-
-	// Link vertexShader and fragmentShader use shaderProgram
-	unsigned int shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	glLinkProgram(shaderProgram);
 
 	// tell OpenGL it should interpret the vertex data
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*) 0);
 	glEnableVertexAttribArray(0);
 
+	// tell OpenGL it should interpret the vertex of color data
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*) (3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
 																					 
 	// 如果glfwWin 没有关闭 在运行状态
 	while (!glfwWindowShouldClose(glfwWin)) {
@@ -135,16 +108,9 @@ int main() {
 
 		// draw Triangle use VBO
 		glBindVertexArray(VAO);
+
 		//glDrawArrays(GL_TRIANGLES, 0, 6); // triangles
-
-		// 利用定时器创建闪烁颜色
-		float timeValue = glfwGetTime();
-		float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
-		int ColorPos = glGetUniformLocation(shaderProgram, "ourColor");
-
-		glUseProgram(shaderProgram);
-
-		glUniform4f(ColorPos, 1.0f, greenValue, 0.0f, 1.0f);
+		myShader->useProgram();
 
 		// draw Triangles use EBO
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
