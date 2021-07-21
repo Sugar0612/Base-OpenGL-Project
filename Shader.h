@@ -17,5 +17,10 @@ public:
 
 
 	unsigned int ID; // programshader id
+
+
+
+private:
+	void _check_Compile_Error(unsigned int id, string type);
 };
 

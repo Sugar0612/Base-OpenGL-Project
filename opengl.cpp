@@ -1,25 +1,26 @@
 #define GLEW_STATIC  // 使用 glew32s.lib静态库
+#define STB_IMAGE_IMPLEMENTATION
 
 #include <iostream>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "Shader.h"
+#include "stb_image.h"
 
 using namespace::std;
 
 float vertices[] = {
-	-0.5f, -0.5f, 0.0f, 1.0f, 0, 0,
-	 0.5f, -0.5f, 0.0f, 0, 1.0f, 0,
-	 0.0f,  0.5f, 0.0f, 0, 0, 1.0f,
-	 //0.5f, -0.5f, 0.0f,
-	 //0.0f,  0.5f, 0.0f,
-	 0.8f, 0.6f, 0.0f, 1.0f, 1.0f, 0
-};  // 三角形坐标
+	// positions          // colors           // texture coords
+	 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
+	 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
+	-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
+	-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left 
+}; 
 
 // draw index 
 unsigned int index[] = {
 	0, 1, 2,
-	1, 2, 3
+	2, 3, 0
 };
 
 
@@ -91,13 +92,35 @@ int main() {
 
 
 	// tell OpenGL it should interpret the vertex data
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*) 0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*) 0);
 	glEnableVertexAttribArray(0);
 
 	// tell OpenGL it should interpret the vertex of color data
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*) (3 * sizeof(float)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*) (3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
-																					 
+
+	// tell OpenGL it should interpret the texture of Postion data
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(2);
+
+	// Create and Bind texBuffer.
+	unsigned int texBuffer;
+	glGenTextures(1, &texBuffer);
+	glBindTexture(GL_TEXTURE_2D, texBuffer);
+
+	int width, height, nrchannels;
+	unsigned char *data = stbi_load("container.jpg", &width, &height, &nrchannels, 0);
+	if (data) {
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else {
+		cout << "failed open image!" << endl;
+	}
+
+	//free
+	stbi_image_free(data);
+
 	// 如果glfwWin 没有关闭 在运行状态
 	while (!glfwWindowShouldClose(glfwWin)) {
 		pressInput_Keyboard(glfwWin);  // press Esc_Button close glfw_window
@@ -106,7 +129,9 @@ int main() {
 		glClearColor(0.2, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		// draw Triangle use VBO
+
+		glBindTexture(GL_TEXTURE_2D, texBuffer);
+		// draw use VAO
 		glBindVertexArray(VAO);
 
 		//glDrawArrays(GL_TRIANGLES, 0, 6); // triangles

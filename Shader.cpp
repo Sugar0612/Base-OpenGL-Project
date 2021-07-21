@@ -32,15 +32,18 @@ Shader::Shader(const char *vertexfile, const char *fragmentfile) {
 		vertex = glCreateShader(GL_VERTEX_SHADER);
 		glShaderSource(vertex, 1, &vertexScode, nullptr);
 		glCompileShader(vertex);
+		_check_Compile_Error(vertex, "VERTEX");
 
 		fragment = glCreateShader(GL_FRAGMENT_SHADER);
 		glShaderSource(fragment, 1, &fragmentScode, nullptr);
 		glCompileShader(fragment);
+		_check_Compile_Error(fragment, "FRAGMENT");
 
 		ID = glCreateProgram();
 		glAttachShader(ID, vertex);
 		glAttachShader(ID, fragment);
 		glLinkProgram(ID);
+		_check_Compile_Error(ID, "PROGRAM");
 	}
 	catch (const std::exception& e) {
 		cout << e.what() << endl;
@@ -49,4 +52,26 @@ Shader::Shader(const char *vertexfile, const char *fragmentfile) {
 
 void Shader::useProgram() {
 	glUseProgram(ID);
+}
+
+
+void Shader::_check_Compile_Error(unsigned int id, string type) {
+	int success;
+	char errorInfo[1024];
+	
+	if (type != "PROGRAM") {
+		glGetShaderiv(id, GL_COMPILE_STATUS, &success);
+		if (!success) {
+			glGetShaderInfoLog(id, 1024, nullptr, errorInfo);
+			cout << "failed compile : " << errorInfo << endl;
+		}
+	}
+
+	else {
+		glGetProgramiv(id, GL_LINK_STATUS, &success);
+		if (!success) {
+			glGetProgramInfoLog(id, 1024, nullptr, errorInfo);
+			cout << "failed program linking : " << errorInfo << endl;
+		}
+	}
 }
