@@ -1,28 +1,6 @@
 #define GLEW_STATIC  // 使用 glew32s.lib静态库
-
-#include <iostream>
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 #include "opengl.h"
 #include "Shader.h"
-
-using namespace::std;
-
-float vertices[] = {
-	// positions          // colors           // texture coords
-	 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
-	 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
-	-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
-	-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left 
-}; 
-
-// draw index 
-unsigned int index[] = {
-	0, 1, 2,
-	2, 3, 0
-};
-
-
 
 void pressInput_Keyboard(GLFWwindow *win) {
 	// 如果用户按下了 ESC按钮
@@ -64,7 +42,7 @@ int main() {
 	}
 
 	glViewport(0, 0, 800, 600); // 设置窗口像素值 (第三参数 第四参数是 渲染宽高的像素值)
-	Shader *myShader = new Shader("vertexSource.txt", "fragmentSource.txt");
+	Shader *myShader = new Shader("./shaderSource/vertexSource.txt", "./shaderSource/fragmentSource.txt");
 
 	// Draw line
 	/*glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);*/
@@ -75,37 +53,25 @@ int main() {
 
 	// Create VAO and VBO  (VBO ==> VAO)
 	unsigned int VAO;
-	glGenVertexArrays(1, &VAO); // Create one VAO
-	glBindVertexArray(VAO); // 连接到 Vertex Shader
+	_Create__init(VAO, "VAO");
 
 	unsigned int VBO;
-	glGenBuffers(1, &VBO); // Create one VBO
-	glBindBuffer(GL_ARRAY_BUFFER, VBO); // VBO 类型
+	_Create__init(VBO,  "VBO");
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); // 将 vertices 数据放到 VBO中
+
 
 	// Create EBO (EBO ==> VAO)
 	unsigned int EBO;
-	glGenBuffers(1, &EBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	_Create__init(EBO, "EBO");
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(index), index, GL_STATIC_DRAW);
 
-
-	// tell OpenGL it should interpret the vertex data
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*) 0);
-	glEnableVertexAttribArray(0);
-
-	// tell OpenGL it should interpret the vertex of color data
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*) (3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
-
-	// tell OpenGL it should interpret the texture of Postion data
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-	glEnableVertexAttribArray(2);
+	//tell opengl identfly the stall
+	_GL__Identfly__stall();
 
 	// Create and Bind texBuffer and faceBuffer.
 	unsigned int texBuffer = 0, faceBuffer = 0;
-	_Create_Texture(texBuffer, "container.jpg", "jpg");
-	_Create_Texture(faceBuffer, "awesomeface.png", "png");
+	_Create__Texture(texBuffer, "./sourceImage/container.jpg", "jpg");
+	_Create__Texture(faceBuffer, "./sourceImage/awesomeface.png", "png");
 
 	// 如果glfwWin 没有关闭 在运行状态
 	while (!glfwWindowShouldClose(glfwWin)) {
@@ -117,14 +83,16 @@ int main() {
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texBuffer);
+
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, faceBuffer);
+
+		//glDrawArrays(GL_TRIANGLES, 0, 6); // triangles
+		myShader->useProgram();
 
 		// draw use VAO
 		glBindVertexArray(VAO);
 
-		//glDrawArrays(GL_TRIANGLES, 0, 6); // triangles
-		myShader->useProgram();
 		glUniform1i(glGetUniformLocation(myShader->ID, "aTex"), 0);
 		glUniform1i(glGetUniformLocation(myShader->ID, "aface"), 1);
 

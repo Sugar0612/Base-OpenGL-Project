@@ -144,12 +144,12 @@
     <ClInclude Include="stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="fragmentSource.txt" />
-    <Text Include="vertexSource.txt" />
+    <Text Include="shaderSource\fragmentSource.txt" />
+    <Text Include="shaderSource\vertexSource.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="awesomeface.png" />
-    <Image Include="container.jpg" />
+    <Image Include="sourceImage\awesomeface.png" />
+    <Image Include="sourceImage\container.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

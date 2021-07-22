@@ -1,3 +1,3 @@
 ﻿  opengl.cpp
-e:\vs c资料\vs2017\opengl_first\opengl_first\opengl.cpp(115): warning C4305: “参数”: 从“double”到“GLclampf”截断
+e:\vs c资料\vs2017\opengl_first\opengl_first\opengl.cpp(81): warning C4305: “参数”: 从“double”到“GLclampf”截断
   OpenGL_First.vcxproj -> E:\vs C资料\vs2017\OpenGL_First\Debug\OpenGL_First.exe

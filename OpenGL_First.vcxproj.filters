@@ -34,18 +34,18 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="vertexSource.txt">
+    <Text Include="shaderSource\vertexSource.txt">
       <Filter>资源文件</Filter>
     </Text>
-    <Text Include="fragmentSource.txt">
+    <Text Include="shaderSource\fragmentSource.txt">
       <Filter>资源文件</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="container.jpg">
+    <Image Include="sourceImage\container.jpg">
       <Filter>资源文件</Filter>
     </Image>
-    <Image Include="awesomeface.png">
+    <Image Include="sourceImage\awesomeface.png">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>
