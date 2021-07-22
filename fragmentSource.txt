@@ -3,8 +3,9 @@ in vec4 vertexColor;
 in vec2 TexPos;
 
 uniform sampler2D aTex;
+uniform sampler2D aface;
 
 out vec4 FragColor;
 void main() {				
-	FragColor = texture(aTex, TexPos);
+	FragColor = mix(texture(aTex, TexPos), texture(aface, TexPos), 0.3);
 }

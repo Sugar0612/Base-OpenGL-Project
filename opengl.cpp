@@ -1,11 +1,10 @@
 #define GLEW_STATIC  // 使用 glew32s.lib静态库
-#define STB_IMAGE_IMPLEMENTATION
 
 #include <iostream>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include "opengl.h"
 #include "Shader.h"
-#include "stb_image.h"
 
 using namespace::std;
 
@@ -103,23 +102,10 @@ int main() {
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 	glEnableVertexAttribArray(2);
 
-	// Create and Bind texBuffer.
-	unsigned int texBuffer;
-	glGenTextures(1, &texBuffer);
-	glBindTexture(GL_TEXTURE_2D, texBuffer);
-
-	int width, height, nrchannels;
-	unsigned char *data = stbi_load("container.jpg", &width, &height, &nrchannels, 0);
-	if (data) {
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	else {
-		cout << "failed open image!" << endl;
-	}
-
-	//free
-	stbi_image_free(data);
+	// Create and Bind texBuffer and faceBuffer.
+	unsigned int texBuffer = 0, faceBuffer = 0;
+	_Create_Texture(texBuffer, "container.jpg", "jpg");
+	_Create_Texture(faceBuffer, "awesomeface.png", "png");
 
 	// 如果glfwWin 没有关闭 在运行状态
 	while (!glfwWindowShouldClose(glfwWin)) {
@@ -129,13 +115,19 @@ int main() {
 		glClearColor(0.2, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texBuffer);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, faceBuffer);
+
 		// draw use VAO
 		glBindVertexArray(VAO);
 
 		//glDrawArrays(GL_TRIANGLES, 0, 6); // triangles
 		myShader->useProgram();
+		glUniform1i(glGetUniformLocation(myShader->ID, "aTex"), 0);
+		glUniform1i(glGetUniformLocation(myShader->ID, "aface"), 1);
+
 
 		// draw Triangles use EBO
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
