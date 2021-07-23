@@ -73,8 +73,20 @@ int main() {
 	_Create__Texture(texBuffer, "./sourceImage/container.jpg", "jpg");
 	_Create__Texture(faceBuffer, "./sourceImage/awesomeface.png", "png");
 
+	// This is an identity matrix.
+	mat4 trans;
+	//trans = scale(trans, glm::vec3(0.5, 0.5, 0.5));
+	trans = translate(trans, vec3(0.5f, -0.5f, 0));
+	trans = rotate(trans, (float)glfwGetTime(), vec3(0, 0, 1.0f));
+
 	// 如果glfwWin 没有关闭 在运行状态
 	while (!glfwWindowShouldClose(glfwWin)) {
+		mat4 trans;
+		trans = scale(trans, glm::vec3(0.5, 0.5, 0.5));
+		trans = translate(trans, vec3(0.5f, -0.5f, 0));
+		trans = rotate(trans, (float)glfwGetTime(), vec3(0, 0, 1.0f));
+
+
 		pressInput_Keyboard(glfwWin);  // press Esc_Button close glfw_window
 
 		// color rendering
@@ -95,7 +107,7 @@ int main() {
 
 		glUniform1i(glGetUniformLocation(myShader->ID, "aTex"), 0);
 		glUniform1i(glGetUniformLocation(myShader->ID, "aface"), 1);
-
+		glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "transform"), 1, GL_FALSE, value_ptr(trans));
 
 		// draw Triangles use EBO
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

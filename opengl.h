@@ -7,8 +7,13 @@
 #include <GLFW/glfw3.h>
 #include "stb_image.h"
 
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
+
 using namespace::std;
 
+using namespace::glm;
 
 float vertices[] = {
 	// positions          // colors           // texture coords
