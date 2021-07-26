@@ -80,6 +80,18 @@ vec3 cubePositions[] = {
 	glm::vec3(-1.3f,  1.0f, -1.5f)
 };
 
+//Create Camera
+Camera *camer = new Camera(vec3(0, 0, 3.0f), 0.0f, 180.0f, vec3(0, 1.0f, 0));
+
+// dirtion
+float dirX = 0.0f, dirY = 0.0f;
+
+// last to x and y
+float last_x = 0.0f, last_y = 0.0f;
+
+bool first_cursor_input = true;
+
+
 void _Create__Texture(unsigned int &texture, const char *file, string file_type) {
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);

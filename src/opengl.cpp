@@ -7,9 +7,34 @@ void pressInput_Keyboard(GLFWwindow *win) {
 	if (glfwGetKey(win, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
 		glfwSetWindowShouldClose(win, true); // 关闭窗口
 	}
+	else if (glfwGetKey(win, GLFW_KEY_W) == GLFW_PRESS) {
+		camer->camera_Pos += camer->forWord * (0.01f);
+	}
+	else if (glfwGetKey(win, GLFW_KEY_S) == GLFW_PRESS) {
+		camer->camera_Pos += camer->forWord * (-0.01f);
+	}
+	else if (glfwGetKey(win, GLFW_KEY_A) == GLFW_PRESS) {
+		camer->camera_Pos += normalize(cross(camer->forWord, camer->up)) * (0.01f);
+	}
+	else if (glfwGetKey(win, GLFW_KEY_D) == GLFW_PRESS) {
+		camer->camera_Pos -= normalize(cross(camer->forWord, camer->up)) * (0.01f);
+	}
+	else {
+		camer->speed_z = 0.0f;
+	}
 	return;
 }
 
+void mouse_callback(GLFWwindow* w, double mouseX, double mouseY) {
+	dirX = mouseX - last_x;
+	dirY = mouseY - last_y;
+
+	last_x = mouseX;
+	last_y = mouseY;
+
+	camer->setViewPos(dirX, dirY);
+	return;
+}
 
 int main() {
 	glfwInit(); // 初始化第三方库 glfw
@@ -41,7 +66,11 @@ int main() {
 		return -1;																	 
 	}
 
+	glfwSetInputMode(glfwWin, GLFW_CURSOR, GLFW_CURSOR_DISABLED);  // MOUSE DISABLED.
 	glViewport(0, 0, 800, 600); // 设置窗口像素值 (第三参数 第四参数是 渲染宽高的像素值)
+
+	glfwSetCursorPosCallback(glfwWin, mouse_callback);
+
 	Shader *myShader = new Shader("./shaderSource/vertexSource.txt", "./shaderSource/fragmentSource.txt");
 
 	// Draw line
@@ -73,6 +102,7 @@ int main() {
 	_Create__Texture(texBuffer, "./sourceImage/container.jpg", "jpg");
 	_Create__Texture(faceBuffer, "./sourceImage/awesomeface.png", "png");
 
+
 	// 如果glfwWin 没有关闭 在运行状态
 	while (!glfwWindowShouldClose(glfwWin)) {
 		/*mat4 modelMat;
@@ -81,11 +111,8 @@ int main() {
 		projMat = perspective(radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 		glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "projMat"), 1, GL_FALSE, value_ptr(projMat));
 
-		//Create Camera
-		Camera *camer = new Camera(vec3((float)(cos(glfwGetTime()) * 10.0f), 0.0f, (float)(sin(glfwGetTime()) * 10.0f)), vec3(0, 0, 0), vec3(0, 1.0f, 0.0f));
-		mat4 viewMat; 
+		mat4 viewMat;
 		viewMat = camer->getViewMatrix();
-		
 
 		/*mat4 projMat;
 		projMat = perspective(radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);*/
@@ -148,6 +175,7 @@ int main() {
 		// 消除屏幕因为渲染出现伪影的状况(two buffers)。
 		glfwSwapBuffers(glfwWin); 
 		glfwPollEvents(); // 获取用户的操作
+
 	}
 
 	glfwTerminate();
