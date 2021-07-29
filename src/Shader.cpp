@@ -11,7 +11,7 @@ Shader::Shader(const char *vertexfile, const char *fragmentfile) {
 
 		//if not open Source file
 		if ((!vertexSfile.is_open()) || (!fragmentSfile.is_open())) {
-			throw exception("failed file open!");
+			throw exception("failed Shader file open!");
 		}
 
 		stringstream vertexSstream, fragmentSstream;

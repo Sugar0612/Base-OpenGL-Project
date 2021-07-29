@@ -40,10 +40,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="shaderSource\vertexSource.txt">
+    <Text Include="shaderSource\fragmentSource.frag">
       <Filter>资源文件</Filter>
     </Text>
-    <Text Include="shaderSource\fragmentSource.txt">
+    <Text Include="shaderSource\vertexSource.vert">
       <Filter>资源文件</Filter>
     </Text>
   </ItemGroup>

@@ -2,41 +2,8 @@
 #include "opengl.h"
 #include "Shader.h"
 
-void pressInput_Keyboard(GLFWwindow *win) {
-	// 如果用户按下了 ESC按钮
-	if (glfwGetKey(win, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-		glfwSetWindowShouldClose(win, true); // 关闭窗口
-	}
-	else if (glfwGetKey(win, GLFW_KEY_W) == GLFW_PRESS) {
-		camer->camera_Pos += camer->forWord * (0.01f);
-	}
-	else if (glfwGetKey(win, GLFW_KEY_S) == GLFW_PRESS) {
-		camer->camera_Pos += camer->forWord * (-0.01f);
-	}
-	else if (glfwGetKey(win, GLFW_KEY_A) == GLFW_PRESS) {
-		camer->camera_Pos += normalize(cross(camer->forWord, camer->up)) * (0.01f);
-	}
-	else if (glfwGetKey(win, GLFW_KEY_D) == GLFW_PRESS) {
-		camer->camera_Pos -= normalize(cross(camer->forWord, camer->up)) * (0.01f);
-	}
-	else {
-		camer->speed_z = 0.0f;
-	}
-	return;
-}
-
-void mouse_callback(GLFWwindow* w, double mouseX, double mouseY) {
-	dirX = mouseX - last_x;
-	dirY = mouseY - last_y;
-
-	last_x = mouseX;
-	last_y = mouseY;
-
-	camer->setViewPos(dirX, dirY);
-	return;
-}
-
 int main() {
+	#pragma region Open the Window
 	glfwInit(); // 初始化第三方库 glfw
 
 	// 版本号 3.3
@@ -70,16 +37,13 @@ int main() {
 	glViewport(0, 0, 800, 600); // 设置窗口像素值 (第三参数 第四参数是 渲染宽高的像素值)
 
 	glfwSetCursorPosCallback(glfwWin, mouse_callback);
+#pragma endregion
 
-	Shader *myShader = new Shader("./shaderSource/vertexSource.txt", "./shaderSource/fragmentSource.txt");
+	#pragma region Init myShader
+		Shader *myShader = new Shader("./shaderSource/vertexSource.vert", "./shaderSource/fragmentSource.frag");
+	#pragma endregion
 
-	// Draw line
-	/*glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);*/
-
-	//// 剔除某个面
-	//glEnable(GL_CULL_FACE);
-	//glCullFace(GL_BACK);
-
+	#pragma region Init VAO, VBO and EBO.
 	// Create VAO and VBO  (VBO ==> VAO)
 	unsigned int VAO;
 	_Create__init(VAO, "VAO");
@@ -93,84 +57,73 @@ int main() {
 	unsigned int EBO;
 	_Create__init(EBO, "EBO");
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(index), index, GL_STATIC_DRAW);
+#pragma endregion
 
 	//tell opengl identfly the stall
 	_GL__Identfly__stall();
 
+	#pragma region Init and Load texture(box and awsomeface)
 	// Create and Bind texBuffer and faceBuffer.
-	unsigned int texBuffer = 0, faceBuffer = 0;
-	_Create__Texture(texBuffer, "./sourceImage/container.jpg", "jpg");
-	_Create__Texture(faceBuffer, "./sourceImage/awesomeface.png", "png");
+	unsigned int texBuffer, faceBuffer;
+	_Create__Texture(texBuffer, "./sourceImage/container.jpg", GL_RGB);
+	_Create__Texture(faceBuffer, "./sourceImage/awesomeface.png", GL_RGBA);
+	#pragma endregion
 
 
 	// 如果glfwWin 没有关闭 在运行状态
 	while (!glfwWindowShouldClose(glfwWin)) {
-		/*mat4 modelMat;
-		modelMat = rotate(modelMat, (float)(glfwGetTime() * radians(55.0f)), vec3(0.1, 0.4, 0.6));*/
-		mat4 projMat;
-		projMat = perspective(radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
-		glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "projMat"), 1, GL_FALSE, value_ptr(projMat));
-
-		mat4 viewMat;
-		viewMat = camer->getViewMatrix();
-
-		/*mat4 projMat;
-		projMat = perspective(radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);*/
-		// This is an identity matrix.
-		/*mat4 trans;
-		trans = scale(trans, glm::vec3(0.5, 0.5, 0.5));
-		trans = translate(trans, vec3(0.5f, -0.5f, 0));
-		trans = rotate(trans, (float)glfwGetTime(), vec3(0, 0, 1.0f));*/
-
-
-		pressInput_Keyboard(glfwWin);  // press Esc_Button close glfw_window
+		//Get the user's keys.
+		prcessInput_Keyboard(glfwWin);  // press Esc_Button close glfw_window
 
 		// color rendering
 		glClearColor(0.2, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, texBuffer);
-
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, faceBuffer);
-
-		//glDrawArrays(GL_TRIANGLES, 0, 6); // triangles
-		myShader->useProgram();
-
-
-		// draw use VAO
-		glBindVertexArray(VAO);
-
 		// looper rendering ten cube.
 		for (int i = 1; i <= 10; ++i) {
 			float angle = i * 25.0f;
 
-			mat4 modelMat1;
-			modelMat1 = translate(modelMat1, cubePositions[i - 1]);
+			// Init martix
+			mat4 modelMat = mat4(1.0f);
+			mat4 viewMat = mat4(1.0f);
+			mat4 projMat = mat4(1.0f);
+			viewMat = camer->getViewMatrix();
+			projMat = perspective(radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
-			modelMat1 = rotate(modelMat1, (float)(glfwGetTime()) * radians(angle), vec3(0.5f, 1.0f, 0.3f));
 
-			glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "modelMat"), 1, GL_FALSE, value_ptr(modelMat1));
+			// Set model martix
+			modelMat = translate(modelMat, cubePositions[i - 1]);
+			modelMat = rotate(modelMat, (float)(glfwGetTime()) * radians(angle), vec3(0.5f, 1.0f, 0.3f));
 
+			// Shader Program
+			myShader->useProgram();
+
+			// Texture
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, texBuffer);
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, faceBuffer);
+
+
+			// Insert the specified Uniform.
+			glUniform1i(glGetUniformLocation(myShader->ID, "aTex"), 0);
+			glUniform1i(glGetUniformLocation(myShader->ID, "aface"), 1);
+			glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "modelMat"), 1, GL_FALSE, value_ptr(modelMat));
+			glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "viewMat"), 1, GL_FALSE, value_ptr(viewMat));
+			glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "projMat"), 1, GL_FALSE, value_ptr(projMat));
+			glUniform3f(glGetUniformLocation(myShader->ID, "objColor"), 1.0f, 0.5f, 0.31f);
+			glUniform3f(glGetUniformLocation(myShader->ID, "ambientColor"), 1.0f, 1.0f, 1.0f);
+
+			// draw use VAO
+			glBindVertexArray(VAO);
+
+			//Drawfun call
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
-
-
-		glUniform1i(glGetUniformLocation(myShader->ID, "aTex"), 0);
-		glUniform1i(glGetUniformLocation(myShader->ID, "aface"), 1);
-		//glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "transform"), 1, GL_FALSE, value_ptr(trans));
-
-		glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "viewMat"), 1, GL_FALSE, value_ptr(viewMat));
-		//glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "projMat"), 1, GL_FALSE, value_ptr(projMat));
-		//glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "modelMat"), 1, GL_FALSE, value_ptr(modelMat));
 
 		// enable depth_test
 		glEnable(GL_DEPTH_TEST);
 		
-
-		// draw Triangles use EBO
-		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		// 消除屏幕因为渲染出现伪影的状况(two buffers)。
 		glfwSwapBuffers(glfwWin); 

@@ -16,6 +16,7 @@ using namespace::std;
 
 using namespace::glm;
 
+#pragma region Model data
 float vertices[] = {
 		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 		 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
@@ -79,7 +80,9 @@ vec3 cubePositions[] = {
 	glm::vec3(1.5f,  0.2f, -1.5f),
 	glm::vec3(-1.3f,  1.0f, -1.5f)
 };
+#pragma endregion
 
+#pragma region Declare
 //Create Camera
 Camera *camer = new Camera(vec3(0, 0, 3.0f), 0.0f, 180.0f, vec3(0, 1.0f, 0));
 
@@ -90,9 +93,45 @@ float dirX = 0.0f, dirY = 0.0f;
 float last_x = 0.0f, last_y = 0.0f;
 
 bool first_cursor_input = true;
+#pragma endregion
+
+#pragma region fun
+void prcessInput_Keyboard(GLFWwindow *win) {
+	// 如果用户按下了 ESC按钮
+	if (glfwGetKey(win, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+		glfwSetWindowShouldClose(win, true); // 关闭窗口
+	}
+	else if (glfwGetKey(win, GLFW_KEY_W) == GLFW_PRESS) {
+		camer->camera_Pos += camer->forWord * (0.01f);
+	}
+	else if (glfwGetKey(win, GLFW_KEY_S) == GLFW_PRESS) {
+		camer->camera_Pos -= camer->forWord * (0.01f);
+	}
+	else if (glfwGetKey(win, GLFW_KEY_A) == GLFW_PRESS) {
+		camer->camera_Pos += normalize(cross(camer->forWord, camer->up)) * (0.01f);
+	}
+	else if (glfwGetKey(win, GLFW_KEY_D) == GLFW_PRESS) {
+		camer->camera_Pos -= normalize(cross(camer->forWord, camer->up)) * (0.01f);
+	}
+	else {
+		camer->speed_z = 0.0f;
+	}
+	return;
+}
 
 
-void _Create__Texture(unsigned int &texture, const char *file, string file_type) {
+void mouse_callback(GLFWwindow* w, double mouseX, double mouseY) {
+	dirX = mouseX - last_x;
+	dirY = mouseY - last_y;
+
+	last_x = mouseX;
+	last_y = mouseY;
+
+	camer->setViewPos(dirX, dirY);
+	return;
+}
+
+void _Create__Texture(unsigned int &texture, const char *file, GLint internalformat) {
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
 
@@ -101,14 +140,8 @@ void _Create__Texture(unsigned int &texture, const char *file, string file_type)
 
 	unsigned char *data = stbi_load(file, &width, &height, &nrchannels, 0);
 	if (data) {
-		if (file_type == "png") {
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+			glTexImage2D(GL_TEXTURE_2D, 0, internalformat, width, height, 0, internalformat, GL_UNSIGNED_BYTE, data);
 			glGenerateMipmap(GL_TEXTURE_2D);
-		}
-		else {
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-			glGenerateMipmap(GL_TEXTURE_2D);
-		}
 	}
 	else {
 		cout << "failed open image!" << endl;
@@ -149,3 +182,4 @@ void _GL__Identfly__stall() {
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(2);
 }
+#pragma endregion
