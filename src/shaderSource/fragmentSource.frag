@@ -1,13 +1,20 @@
 #version 330 core			
-in vec4 vertexColor;
-in vec2 TexPos;
+in vec3 Normal;
+in vec3 FragPos;
 
-uniform sampler2D aTex;
-uniform sampler2D aface;
 uniform vec3 objColor;
 uniform vec3 ambientColor;
+uniform vec3 lightPos;
+uniform vec3 lightColor;
+uniform vec3 CameraPos;
 
 out vec4 FragColor;
-void main() {				
-	FragColor = vec4(objColor * ambientColor, 1.0) * mix(texture(aTex, TexPos), texture(aface, TexPos), 0.3f);
+void main() {
+	vec3 lightDir = normalize(lightPos - FragPos);
+	vec3 reflectVec = reflect(-lightDir, Normal);
+	vec3 CarmeraVec = max(normalize(CameraPos - FragPos), 0);
+
+	vec3 specularVec = vec3(pow(max(dot(CarmeraVec, reflectVec), 0), 256)) * lightColor;
+	vec3 diffuse = dot(lightDir, Normal) * lightColor;
+	FragColor = vec4((ambientColor  + diffuse + specularVec) * objColor, 1.0);
 }

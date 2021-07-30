@@ -75,3 +75,8 @@ void Shader::_check_Compile_Error(unsigned int id, string type) {
 		}
 	}
 }
+
+
+void Shader::setVec3(string Uniform_name, float x, float y, float z) {
+	glUniform3f(glGetUniformLocation(ID, Uniform_name.c_str()), x, y, z);
+}

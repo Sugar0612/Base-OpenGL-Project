@@ -81,7 +81,7 @@ int main() {
 
 		// looper rendering ten cube.
 		for (int i = 1; i <= 10; ++i) {
-			float angle = i * 25.0f;
+			float angle = 0 * 25.0f;
 
 			// Init martix
 			mat4 modelMat = mat4(1.0f);
@@ -98,21 +98,17 @@ int main() {
 			// Shader Program
 			myShader->useProgram();
 
-			// Texture
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, texBuffer);
-			glActiveTexture(GL_TEXTURE1);
-			glBindTexture(GL_TEXTURE_2D, faceBuffer);
 
 
 			// Insert the specified Uniform.
-			glUniform1i(glGetUniformLocation(myShader->ID, "aTex"), 0);
-			glUniform1i(glGetUniformLocation(myShader->ID, "aface"), 1);
 			glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "modelMat"), 1, GL_FALSE, value_ptr(modelMat));
 			glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "viewMat"), 1, GL_FALSE, value_ptr(viewMat));
 			glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "projMat"), 1, GL_FALSE, value_ptr(projMat));
-			glUniform3f(glGetUniformLocation(myShader->ID, "objColor"), 1.0f, 0.5f, 0.31f);
-			glUniform3f(glGetUniformLocation(myShader->ID, "ambientColor"), 1.0f, 1.0f, 1.0f);
+			myShader->setVec3("objColor", 0.4f, 0.2f, 0.1f);
+			myShader->setVec3("ambientColor", 0.6f, 0.4f, 0.2f);
+			myShader->setVec3("lightPos", 0.0f, 0.0f, 5.0f);
+			myShader->setVec3("lightColor", 1.0f, 1.0f, 1.0f);
+			myShader->setVec3("CameraPos", camer->camera_Pos.x, camer->camera_Pos.y, camer->camera_Pos.z);
 
 			// draw use VAO
 			glBindVertexArray(VAO);

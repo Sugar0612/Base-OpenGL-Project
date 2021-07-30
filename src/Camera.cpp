@@ -16,7 +16,7 @@ Camera::Camera(vec3 cameraPos, float pitch, float yaw, vec3 worldUp): camera_Pos
 	forWord.z = cos(Pitch) * cos(Yaw);
 
 	right = normalize(cross(forWord, world_Up));
-	up = normalize(cross(forWord, right));
+	up = normalize(cross(right, forWord));
 }
 
 mat4 Camera::getViewMatrix() {
