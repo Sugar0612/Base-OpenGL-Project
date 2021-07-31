@@ -43,6 +43,10 @@ int main() {
 		Shader *myShader = new Shader("./shaderSource/vertexSource.vert", "./shaderSource/fragmentSource.frag");
 	#pragma endregion
 
+	#pragma region Init Material
+		Material *material = new Material(myShader, vec3(1.0f, 1.0f, 1.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f), 32);
+	#pragma endregion
+
 	#pragma region Init VAO, VBO and EBO.
 	// Create VAO and VBO  (VBO ==> VAO)
 	unsigned int VAO;
@@ -104,11 +108,16 @@ int main() {
 			glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "modelMat"), 1, GL_FALSE, value_ptr(modelMat));
 			glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "viewMat"), 1, GL_FALSE, value_ptr(viewMat));
 			glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "projMat"), 1, GL_FALSE, value_ptr(projMat));
-			myShader->setVec3("objColor", 0.4f, 0.2f, 0.1f);
-			myShader->setVec3("ambientColor", 0.6f, 0.4f, 0.2f);
-			myShader->setVec3("lightPos", 0.0f, 0.0f, 5.0f);
-			myShader->setVec3("lightColor", 1.0f, 1.0f, 1.0f);
-			myShader->setVec3("CameraPos", camer->camera_Pos.x, camer->camera_Pos.y, camer->camera_Pos.z);
+			myShader->setVec3("objColor", vec3(0.4f, 0.2f, 0.1f));
+			myShader->setVec3("ambientColor", vec3(0.6f, 0.4f, 0.2f));
+			myShader->setVec3("lightPos", vec3(-5.0f, 10.0f, -2.0f));
+			myShader->setVec3("lightColor", vec3(1.0f, 1.0f, 1.0f));
+			myShader->setVec3("CameraPos", camer->camera_Pos);
+
+			material->myShader->setVec3("material.ambient", material->anbiemt);
+			material->myShader->setVec3("material.diffuse", material->diffuse);
+			material->myShader->setVec3("material.specular", material->specular);
+			material->myShader->setVec1("material.shininess", 32.0f);
 
 			// draw use VAO
 			glBindVertexArray(VAO);

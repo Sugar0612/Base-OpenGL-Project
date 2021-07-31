@@ -12,6 +12,8 @@
 #include <gtc/type_ptr.hpp>
 
 #include "Camera.h"
+#include "Material.h"
+
 using namespace::std;
 
 using namespace::glm;
