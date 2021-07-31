@@ -6,4 +6,4 @@
 # ![c++ File reading process](./image/openfile.png)
 
 ## opengl recent rending result
-# ![opengl recent rending result](./image/light.gif)
+# ![opengl recent rending result](./image/light.png)
