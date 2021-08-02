@@ -44,7 +44,7 @@ int main() {
 	#pragma endregion
 
 	#pragma region Init Material
-		Material *material = new Material(myShader, vec3(1.0f, 1.0f, 1.0f), vec3(0.0f, 0.0f, 0.0f), vec3(1.0f, 1.0f, 1.0f), 32);
+		Material *material = new Material(myShader, vec3(1.0f, 1.0f, 1.0f), containerTex, vec3(1.0f, 1.0f, 1.0f), 32);
 	#pragma endregion
 
 	#pragma region Init VAO, VBO and EBO.
@@ -68,9 +68,7 @@ int main() {
 
 	#pragma region Init and Load texture(box and awsomeface)
 	// Create and Bind texBuffer and faceBuffer.
-	unsigned int texBuffer, faceBuffer;
-	_Create__Texture(texBuffer, "./sourceImage/container.jpg", GL_RGB);
-	_Create__Texture(faceBuffer, "./sourceImage/awesomeface.png", GL_RGBA);
+	_Create__Texture(containerTex, "./sourceImage/container2.png", GL_RGBA);
 	#pragma endregion
 
 
@@ -99,6 +97,10 @@ int main() {
 			modelMat = translate(modelMat, cubePositions[i - 1]);
 			modelMat = rotate(modelMat, (float)(glfwGetTime()) * radians(angle), vec3(0.5f, 1.0f, 0.3f));
 
+			//load Texture
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, containerTex);
+
 			// Shader Program
 			myShader->useProgram();
 
@@ -108,14 +110,14 @@ int main() {
 			glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "modelMat"), 1, GL_FALSE, value_ptr(modelMat));
 			glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "viewMat"), 1, GL_FALSE, value_ptr(viewMat));
 			glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "projMat"), 1, GL_FALSE, value_ptr(projMat));
-			myShader->setVec3("objColor", vec3(0.4f, 0.2f, 0.1f));
-			myShader->setVec3("ambientColor", vec3(0.6f, 0.4f, 0.2f));
-			myShader->setVec3("lightPos", vec3(-5.0f, 10.0f, -2.0f));
+			myShader->setVec3("objColor", vec3(0.6f, 0.6f, 0.6f));
+			myShader->setVec3("ambientColor", vec3(0.2f, 0.2f, 0.2f));
+			myShader->setVec3("lightPos", vec3(0.0f, 0.0f,5.0f));
 			myShader->setVec3("lightColor", vec3(1.0f, 1.0f, 1.0f));
 			myShader->setVec3("CameraPos", camer->camera_Pos);
 
 			material->myShader->setVec3("material.ambient", material->anbiemt);
-			material->myShader->setVec3("material.diffuse", material->diffuse);
+			//material->myShader->setVec3("material.diffuse", material->diffuse);
 			material->myShader->setVec3("material.specular", material->specular);
 			material->myShader->setVec1("material.shininess", 32.0f);
 

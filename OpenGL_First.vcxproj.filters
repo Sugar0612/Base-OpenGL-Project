@@ -60,5 +60,8 @@
     <Image Include="sourceImage\awesomeface.png">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="sourceImage\container2.png">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>
