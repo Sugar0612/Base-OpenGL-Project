@@ -11,9 +11,9 @@ public:
 	Shader *myShader;
 	vec3 anbiemt;
 	unsigned int diffuse;
-	vec3 specular;
+	unsigned int specular;
 	float shininess;
 
-	Material(Shader *&myShader, vec3 _anbiemt, unsigned int &_diffuse, vec3 _specular, float _shininess);
+	Material(Shader *&myShader, vec3 _anbiemt, unsigned int _diffuse, unsigned int _specular, float _shininess);
 };
 

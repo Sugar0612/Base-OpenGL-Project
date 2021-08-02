@@ -96,8 +96,6 @@ float dirX = 0.0f, dirY = 0.0f;
 float last_x = 0.0f, last_y = 0.0f;
 
 bool first_cursor_input = true;
-
-unsigned int containerTex;
 #pragma endregion
 
 #pragma region fun
@@ -142,7 +140,8 @@ void mouse_callback(GLFWwindow* w, double mouseX, double mouseY) {
 	return;
 }
 
-void _Create__Texture(unsigned int &texture, const char *file, GLint internalformat) {
+unsigned int _Create__Texture(const char *file, GLint internalformat, int slot) {
+	unsigned int texture;
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
 
@@ -158,8 +157,12 @@ void _Create__Texture(unsigned int &texture, const char *file, GLint internalfor
 		cout << "failed open image!" << endl;
 	}
 
+	glActiveTexture(GL_TEXTURE0 + slot);
+	glBindTexture(GL_TEXTURE_2D, texture);
+
 	//free
 	stbi_image_free(data);
+	return texture;
 }
 
 

@@ -22,6 +22,7 @@ public:
 	
 	void setVec3(string Uniform_name, vec3 vector_3); // push lighting-color uniform.
 	void setVec1(string Uniform_name, float power); // enlarge light's specular.
+	void setUniform1i(string Uniform_name, int slot);
 
 	unsigned int ID; // programshader id
 private:

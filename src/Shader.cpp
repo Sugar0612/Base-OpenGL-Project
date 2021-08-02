@@ -85,3 +85,8 @@ void Shader::setVec1(string Uniform_name, float power)
 {
 	glUniform1f(glGetUniformLocation(ID, Uniform_name.c_str()), power);
 }
+
+void Shader::setUniform1i(string Uniform_name, int slot)
+{
+	glUniform1i(glGetUniformLocation(ID, Uniform_name.c_str()), slot);
+}

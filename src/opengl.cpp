@@ -44,7 +44,7 @@ int main() {
 	#pragma endregion
 
 	#pragma region Init Material
-		Material *material = new Material(myShader, vec3(1.0f, 1.0f, 1.0f), containerTex, vec3(1.0f, 1.0f, 1.0f), 32);
+		Material *material = new Material(myShader, vec3(1.0f, 1.0f, 1.0f), _Create__Texture("./sourceImage/container2.png", GL_RGBA, 0), _Create__Texture("./sourceImage/container_specular.png", GL_RGBA, 1), 32);
 	#pragma endregion
 
 	#pragma region Init VAO, VBO and EBO.
@@ -66,11 +66,6 @@ int main() {
 	//tell opengl identfly the stall
 	_GL__Identfly__stall();
 
-	#pragma region Init and Load texture(box and awsomeface)
-	// Create and Bind texBuffer and faceBuffer.
-	_Create__Texture(containerTex, "./sourceImage/container2.png", GL_RGBA);
-	#pragma endregion
-
 
 	// 如果glfwWin 没有关闭 在运行状态
 	while (!glfwWindowShouldClose(glfwWin)) {
@@ -78,7 +73,7 @@ int main() {
 		prcessInput_Keyboard(glfwWin);  // press Esc_Button close glfw_window
 
 		// color rendering
-		glClearColor(0.2, 0.3f, 0.3f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// looper rendering ten cube.
@@ -99,33 +94,36 @@ int main() {
 
 			//load Texture
 			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, containerTex);
+			glBindTexture(GL_TEXTURE_2D, material->diffuse);
+
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, material->specular);
 
 			// Shader Program
 			myShader->useProgram();
 
-
-
-			// Insert the specified Uniform.
-			glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "modelMat"), 1, GL_FALSE, value_ptr(modelMat));
-			glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "viewMat"), 1, GL_FALSE, value_ptr(viewMat));
-			glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "projMat"), 1, GL_FALSE, value_ptr(projMat));
-			myShader->setVec3("objColor", vec3(0.6f, 0.6f, 0.6f));
-			myShader->setVec3("ambientColor", vec3(0.2f, 0.2f, 0.2f));
-			myShader->setVec3("lightPos", vec3(0.0f, 0.0f,5.0f));
-			myShader->setVec3("lightColor", vec3(1.0f, 1.0f, 1.0f));
-			myShader->setVec3("CameraPos", camer->camera_Pos);
-
-			material->myShader->setVec3("material.ambient", material->anbiemt);
-			//material->myShader->setVec3("material.diffuse", material->diffuse);
-			material->myShader->setVec3("material.specular", material->specular);
-			material->myShader->setVec1("material.shininess", 32.0f);
 
 			// draw use VAO
 			glBindVertexArray(VAO);
 
 			//Drawfun call
 			glDrawArrays(GL_TRIANGLES, 0, 36);
+
+
+			// Insert the specified Uniform.
+			glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "modelMat"), 1, GL_FALSE, value_ptr(modelMat));
+			glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "viewMat"), 1, GL_FALSE, value_ptr(viewMat));
+			glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "projMat"), 1, GL_FALSE, value_ptr(projMat));
+			myShader->setVec3("objColor", vec3(1.0f, 1.0f, 1.0f));
+			myShader->setVec3("ambientColor", vec3(0.3f, 0.3f, 0.3f));
+			myShader->setVec3("lightPos", vec3(0.0f, 0.5f, 2.0f));
+			myShader->setVec3("lightColor", vec3(1.0f, 1.0f, 1.0f));
+			myShader->setVec3("CameraPos", camer->camera_Pos);
+
+			material->myShader->setVec3("material.ambient", material->anbiemt);
+			material->myShader->setUniform1i("marterial.diffuse", 0);
+			material->myShader->setUniform1i("marterial.specular", 1);
+			material->myShader->setVec1("material.shininess", 32.0f);
 		}
 
 		// enable depth_test
