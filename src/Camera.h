@@ -22,10 +22,13 @@ public:
 
 	float Yaw = 0.0f, Pitch = 0.0f;
 
-	float speed_z = 0.0f;
+	float speedX = 0.0f;
+	float speedZ = 0.0f;
+	float speedY = 0.0f;
 
 	mat4 getViewMatrix();
 	void setViewPos(float dir_x, float dir_y);
+	void set_Camera_Pos();
 private:
 	void updataCameraPos();
 };

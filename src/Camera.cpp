@@ -38,3 +38,8 @@ void Camera::setViewPos(float dir_x, float dir_y) {
 	Pitch -= dir_y * 0.001f;
 	updataCameraPos();
 }
+
+void Camera::set_Camera_Pos()
+{
+	this->camera_Pos += forWord * speedZ + right * speedX + up * speedY;
+}

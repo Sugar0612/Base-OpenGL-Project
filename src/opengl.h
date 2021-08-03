@@ -13,6 +13,7 @@
 
 #include "Camera.h"
 #include "Material.h"
+#include "LightDirectional.h"
 
 using namespace::std;
 
@@ -96,6 +97,9 @@ float dirX = 0.0f, dirY = 0.0f;
 float last_x = 0.0f, last_y = 0.0f;
 
 bool first_cursor_input = true;
+
+// class LightDirectional
+LightDirectional *ltdir = new LightDirectional(vec3(0.0f, 0.5f, 2.0f), vec3(radians(45.0f), 0, 0));
 #pragma endregion
 
 #pragma region fun
@@ -105,25 +109,37 @@ void prcessInput_Keyboard(GLFWwindow *win) {
 		glfwSetWindowShouldClose(win, true); // ¹Ø±Õ´°¿Ú
 	}
 	else if (glfwGetKey(win, GLFW_KEY_W) == GLFW_PRESS) {
-		camer->camera_Pos += camer->forWord * (0.01f);
+		camer->speedZ = 0.01f;
+		camer->set_Camera_Pos();
+		camer->speedZ = 0.0f;
 	}
 	else if (glfwGetKey(win, GLFW_KEY_S) == GLFW_PRESS) {
-		camer->camera_Pos -= camer->forWord * (0.01f);
+		camer->speedZ = -0.01f;
+		camer->set_Camera_Pos();
+		camer->speedZ = 0.0f;
 	}
 	else if (glfwGetKey(win, GLFW_KEY_A) == GLFW_PRESS) {
-		camer->camera_Pos += normalize(cross(camer->forWord, camer->up)) * (0.01f);
+		camer->speedX = -0.01f;
+		camer->set_Camera_Pos();
+		camer->speedX = 0.0f;
 	}
 	else if (glfwGetKey(win, GLFW_KEY_D) == GLFW_PRESS) {
-		camer->camera_Pos -= normalize(cross(camer->forWord, camer->up)) * (0.01f);
+		camer->speedX = 0.01f;
+		camer->set_Camera_Pos();
+		camer->speedX = 0.0f;
 	}
 	else if (glfwGetKey(win, GLFW_KEY_Q) == GLFW_PRESS) {
-		camer->camera_Pos -= camer->up * (0.01f);
+		camer->speedY = -0.01f;
+		camer->set_Camera_Pos();
+		camer->speedY = 0.0f;
 	} 
 	else if (glfwGetKey(win, GLFW_KEY_E) == GLFW_PRESS) {
-		camer->camera_Pos += camer->up * (0.01f);
+		camer->speedY = 0.01f;
+		camer->set_Camera_Pos();
+		camer->speedY = 0.0f;
 	}
 	else {
-		camer->speed_z = 0.0f;
+		camer->speedZ = 0.0f;
 	}
 	return;
 }

@@ -25,6 +25,7 @@ public:
 	void setUniform1i(string Uniform_name, int slot);
 
 	unsigned int ID; // programshader id
+	float speedX = 0.0f;
 private:
 	void _check_Compile_Error(unsigned int id, string type);
 };

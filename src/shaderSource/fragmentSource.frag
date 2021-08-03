@@ -15,11 +15,12 @@ uniform vec3 objColor;
 uniform vec3 ambientColor;
 uniform vec3 lightPos;
 uniform vec3 lightColor;
+uniform vec3 lightDir;
 uniform vec3 CameraPos;
 
 out vec4 FragColor;
 void main() {
-	vec3 lightDir = normalize(lightPos - FragPos);
+	
 	vec3 reflectVec = reflect(-lightDir, Normal);  // Diffuse reflection.
 	vec3 CarmeraVec = normalize(CameraPos - FragPos); // View lighting.
 	float specularAmount = pow(max(dot(CarmeraVec, reflectVec), 0), material.shininess);

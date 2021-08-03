@@ -1,6 +1,6 @@
 ﻿  opengl.cpp
-e:\vs c资料\vs2017\opengl_first\opengl_first\opengl.h(133): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-e:\vs c资料\vs2017\opengl_first\opengl_first\opengl.h(134): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-e:\vs c资料\vs2017\opengl_first\opengl_first\opengl.h(136): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-e:\vs c资料\vs2017\opengl_first\opengl_first\opengl.h(137): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\vs c资料\vs2017\opengl_first\opengl_first\opengl.h(149): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\vs c资料\vs2017\opengl_first\opengl_first\opengl.h(150): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\vs c资料\vs2017\opengl_first\opengl_first\opengl.h(152): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\vs c资料\vs2017\opengl_first\opengl_first\opengl.h(153): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
   OpenGL_First.vcxproj -> E:\vs C资料\vs2017\OpenGL_First\Debug\OpenGL_First.exe

@@ -115,9 +115,10 @@ int main() {
 			glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "viewMat"), 1, GL_FALSE, value_ptr(viewMat));
 			glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "projMat"), 1, GL_FALSE, value_ptr(projMat));
 			myShader->setVec3("objColor", vec3(1.0f, 1.0f, 1.0f));
-			myShader->setVec3("ambientColor", vec3(0.3f, 0.3f, 0.3f));
-			myShader->setVec3("lightPos", vec3(0.0f, 0.5f, 2.0f));
-			myShader->setVec3("lightColor", vec3(1.0f, 1.0f, 1.0f));
+			myShader->setVec3("ambientColor", vec3(1.0f, 1.0f, 1.0f));
+			myShader->setVec3("lightPos", ltdir->position);
+			myShader->setVec3("lightColor", ltdir->color);
+			myShader->setVec3("lightDir", ltdir->direction);
 			myShader->setVec3("CameraPos", camer->camera_Pos);
 
 			material->myShader->setVec3("material.ambient", material->anbiemt);
