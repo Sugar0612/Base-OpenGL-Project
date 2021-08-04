@@ -27,7 +27,19 @@
     <ClCompile Include="Material.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="LightDirectional.cpp">
+    <ClCompile Include="light\lightSpot.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include=".\light\LightDirectional.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include=".\light\lightPoint.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="light\LightDirectional.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="light\lightPoint.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,7 +59,13 @@
     <ClInclude Include="Material.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="LightDirectional.h">
+    <ClInclude Include="light\LightDirectional.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="light\lightPoint.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="light\lightSpot.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

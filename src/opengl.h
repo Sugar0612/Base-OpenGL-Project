@@ -13,7 +13,9 @@
 
 #include "Camera.h"
 #include "Material.h"
-#include "LightDirectional.h"
+#include "./light/LightDirectional.h"
+#include "./light/lightPoint.h"
+#include "./light/lightSpot.h"
 
 using namespace::std;
 
@@ -99,7 +101,7 @@ float last_x = 0.0f, last_y = 0.0f;
 bool first_cursor_input = true;
 
 // class LightDirectional
-LightDirectional *ltdir = new LightDirectional(vec3(0.0f, 0.5f, 2.0f), vec3(radians(45.0f), 0, 0));
+lightSpot *ltspt = new lightSpot(vec3(0.0f, 5.0f, 0.0f), vec3(radians(90.0f), 0, 0), vec3(1.0f, 1.0f, 1.0f));
 #pragma endregion
 
 #pragma region fun

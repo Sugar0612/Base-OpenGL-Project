@@ -136,14 +136,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="LightDirectional.cpp" />
+    <ClCompile Include="light\LightDirectional.cpp" />
+    <ClCompile Include="light\lightPoint.cpp" />
+    <ClCompile Include="light\lightSpot.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="opengl.cpp" />
     <ClCompile Include="Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="LightDirectional.h" />
+    <ClInclude Include="light\LightDirectional.h" />
+    <ClInclude Include="light\lightPoint.h" />
+    <ClInclude Include="light\lightSpot.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="opengl.h" />
     <ClInclude Include="Shader.h" />

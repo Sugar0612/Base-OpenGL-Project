@@ -115,11 +115,19 @@ int main() {
 			glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "viewMat"), 1, GL_FALSE, value_ptr(viewMat));
 			glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "projMat"), 1, GL_FALSE, value_ptr(projMat));
 			myShader->setVec3("objColor", vec3(1.0f, 1.0f, 1.0f));
-			myShader->setVec3("ambientColor", vec3(1.0f, 1.0f, 1.0f));
-			myShader->setVec3("lightPos", ltdir->position);
-			myShader->setVec3("lightColor", ltdir->color);
-			myShader->setVec3("lightDir", ltdir->direction);
+			myShader->setVec3("ambientColor", vec3(0.1f, 0.1f, 0.1f));
+			myShader->setVec3("lightPos", ltspt->position);
+			myShader->setVec3("lightColor", ltspt->color);
+			myShader->setVec3("lightDirUniform", ltspt->direction);
+
 			myShader->setVec3("CameraPos", camer->camera_Pos);
+
+			//myShader->setVec1("lightPt.constant", ltptr->constant);
+			//myShader->setVec1("lightPt.linear", ltptr->linear);
+			//myShader->setVec1("lightPt.quadratic", ltptr->quadratic);
+
+			myShader->setVec1("lightSp.cosPhyInner", ltspt->cosPhyInner);
+			myShader->setVec1("lightSp.cosPhyOutter", ltspt->cosPhyOutter);
 
 			material->myShader->setVec3("material.ambient", material->anbiemt);
 			material->myShader->setUniform1i("marterial.diffuse", 0);
