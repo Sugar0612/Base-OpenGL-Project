@@ -3,6 +3,7 @@
 
 
 #include <iostream>
+#include <vector>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "stb_image.h"
@@ -101,7 +102,19 @@ float last_x = 0.0f, last_y = 0.0f;
 bool first_cursor_input = true;
 
 // class LightDirectional
-lightSpot *ltspt = new lightSpot(vec3(0.0f, 5.0f, 0.0f), vec3(radians(90.0f), 0, 0), vec3(1.0f, 1.0f, 1.0f));
+lightSpot *ltspt = new lightSpot(vec3(0.0f, 5.0f, 0.0f), vec3(radians(90.0f), 0, 0), vec3(0.5f, 0.5f, 0.5f));
+
+LightDirectional *ltdir = new LightDirectional(vec3(1.0f, 1.0f, -1.0f), vec3(radians(45.0f), radians(45.0f), 0), vec3(0.7f, 0.4f, 0.6f));
+
+lightPoint *ltPtr0 = new lightPoint(vec3(1.0f, 1.0f, -1.0f), vec3(radians(45.0f), radians(45.0f), 0), vec3(1.0f, 1.0f, 1.0f));
+lightPoint *ltPtr1 = new lightPoint(vec3(0.0f, 1.0f, 0.0f), vec3(radians(45.0f), radians(45.0f), 0), vec3(0.0f, 1.0f, 0.0f));
+lightPoint *ltPtr2 = new lightPoint(vec3(0.0f, 0.0f, 1.0f), vec3(radians(45.0f), radians(45.0f), 0), vec3(0.0f, 0.0f, 1.0f));
+lightPoint *ltPtr3 = new lightPoint(vec3(1.0f, 0.0f, 0.0f), vec3(radians(45.0f), radians(45.0f), 0), vec3(1.0f, 0.0f, 0.0f));
+
+
+// vector of lightpoint
+std::vector<lightPoint*> buf = {ltPtr0, ltPtr1 , ltPtr2, ltPtr3};
+
 #pragma endregion
 
 #pragma region fun

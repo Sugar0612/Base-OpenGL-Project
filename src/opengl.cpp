@@ -73,7 +73,7 @@ int main() {
 		prcessInput_Keyboard(glfwWin);  // press Esc_Button close glfw_window
 
 		// color rendering
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.4f, 0.5f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// looper rendering ten cube.
@@ -115,19 +115,36 @@ int main() {
 			glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "viewMat"), 1, GL_FALSE, value_ptr(viewMat));
 			glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "projMat"), 1, GL_FALSE, value_ptr(projMat));
 			myShader->setVec3("objColor", vec3(1.0f, 1.0f, 1.0f));
-			myShader->setVec3("ambientColor", vec3(0.1f, 0.1f, 0.1f));
-			myShader->setVec3("lightPos", ltspt->position);
-			myShader->setVec3("lightColor", ltspt->color);
-			myShader->setVec3("lightDirUniform", ltspt->direction);
+			myShader->setVec3("ambientColor", vec3(1.0f, 1.0f, 1.0f));
 
 			myShader->setVec3("CameraPos", camer->camera_Pos);
+
+			myShader->setVec3("lightD.pos", ltdir->position);
+			myShader->setVec3("lightD.color", ltdir->color);
+			myShader->setVec3("lightD.dir", ltdir->direction);
+
+			for (int i = 0; i < buf.size(); ++i) {
+				string lightpt = "lightPt[" + to_string(i);
+				string pos = "].pos";
+				string color = "].color";
+				string dir = "].dir";
+				string constant = "].constant";
+				string linear = "].linear";
+				string quadratic = "].quadratic";
+				myShader->setVec3(lightpt + pos, buf[i]->position);
+				myShader->setVec3(lightpt + color, buf[i]->color);
+				myShader->setVec3(lightpt + dir, buf[i]->direction);
+				myShader->setVec1(lightpt + constant, buf[i]->constant);
+				myShader->setVec1(lightpt + linear, buf[i]->linear);
+				myShader->setVec1(lightpt + quadratic, buf[i]->quadratic);
+			}
 
 			//myShader->setVec1("lightPt.constant", ltptr->constant);
 			//myShader->setVec1("lightPt.linear", ltptr->linear);
 			//myShader->setVec1("lightPt.quadratic", ltptr->quadratic);
 
-			myShader->setVec1("lightSp.cosPhyInner", ltspt->cosPhyInner);
-			myShader->setVec1("lightSp.cosPhyOutter", ltspt->cosPhyOutter);
+			//myShader->setVec1("lightSp.cosPhyInner", ltdir->cosPhyInner);
+			//myShader->setVec1("lightSp.cosPhyOutter", ltdir->cosPhyOutter);
 
 			material->myShader->setVec3("material.ambient", material->anbiemt);
 			material->myShader->setUniform1i("marterial.diffuse", 0);
