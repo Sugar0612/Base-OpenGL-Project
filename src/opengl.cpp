@@ -44,7 +44,7 @@ int main() {
 	#pragma endregion
 
 	#pragma region Init Material
-		Material *material = new Material(myShader, vec3(1.0f, 1.0f, 1.0f), _Create__Texture("./sourceImage/container2.png", GL_RGBA, 0), _Create__Texture("./sourceImage/container_specular.png", GL_RGBA, 1), 32);
+		Material *material = new Material(myShader, vec3(0.2f, 0.2f, 0.2f), _Create__Texture("./sourceImage/container2.png", GL_RGBA, 0), _Create__Texture("./sourceImage/container_specular.png", GL_RGBA, 1), 32);
 	#pragma endregion
 
 	#pragma region Init VAO, VBO and EBO.
@@ -73,7 +73,7 @@ int main() {
 		prcessInput_Keyboard(glfwWin);  // press Esc_Button close glfw_window
 
 		// color rendering
-		glClearColor(0.4f, 0.5f, 0.3f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// looper rendering ten cube.
@@ -139,12 +139,14 @@ int main() {
 				myShader->setVec1(lightpt + quadratic, buf[i]->quadratic);
 			}
 
-			//myShader->setVec1("lightPt.constant", ltptr->constant);
-			//myShader->setVec1("lightPt.linear", ltptr->linear);
-			//myShader->setVec1("lightPt.quadratic", ltptr->quadratic);
-
-			//myShader->setVec1("lightSp.cosPhyInner", ltdir->cosPhyInner);
-			//myShader->setVec1("lightSp.cosPhyOutter", ltdir->cosPhyOutter);
+			myShader->setVec3("lightSp.pos", ltspt->position);
+			myShader->setVec3("lightSp.color", ltspt->color);
+			myShader->setVec3("lightSp.dir", ltspt->direction);
+			myShader->setVec1("lightSp.constant", ltspt->constant);
+			myShader->setVec1("lightSp.linear", ltspt->linear);
+			myShader->setVec1("lightSp.qeadratic", ltspt->qeadratic);
+			myShader->setVec1("lightSp.cosPhyInner", ltspt->cosPhyInner);
+			myShader->setVec1("lightSp.cosPhyOutter", ltspt->cosPhyOutter);
 
 			material->myShader->setVec3("material.ambient", material->anbiemt);
 			material->myShader->setUniform1i("marterial.diffuse", 0);

@@ -15,6 +15,9 @@ public:
 	float cosPhyInner = 0.9f;
 	float cosPhyOutter = 0.85f;
 
+	float constant = 0.0f;
+	float linear = 0.0f;
+	float qeadratic = 0.0f;
 
 	lightSpot(vec3 _position, vec3 _angle, vec3 _color = vec3(1.0f, 1.0f, 1.0f));
 	~lightSpot();
