@@ -78,7 +78,7 @@ int main() {
 
 		// looper rendering ten cube.
 		for (int i = 1; i <= 10; ++i) {
-			float angle = 0 * 25.0f;
+			float angle = i * 25.0f;
 
 			// Init martix
 			mat4 modelMat = mat4(1.0f);

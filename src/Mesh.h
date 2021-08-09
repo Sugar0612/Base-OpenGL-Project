@@ -16,7 +16,7 @@ struct Vertex {
 };
 
 struct Texture {
-	vec3 id;
+	unsigned int id;
 	string type;
 	string path;
 };
@@ -28,8 +28,8 @@ public:
 	vector<unsigned int> idxes;
 	vector<Texture> textures;
 	
-	Mesh(vector<Vertex> vertices_, vector<int> idx, vector<Texture> textures_);
-	void Draw(Shader myShader);
+	Mesh(vector<Vertex> vertices_, vector<unsigned int> idx, vector<Texture> textures_);
+	void Draw(Shader *myShader);
 
 private:
 	unsigned int VAO, VBO, EBO;
