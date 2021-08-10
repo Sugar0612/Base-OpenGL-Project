@@ -12,11 +12,12 @@
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
 
-#include "Camera.h"
-#include "Material.h"
+#include "./Camera/Camera.h"
+#include "./Material/Material.h"
 #include "./light/LightDirectional.h"
 #include "./light/lightPoint.h"
 #include "./light/lightSpot.h"
+#include "./Mesh/Mesh.h"
 
 using namespace::std;
 

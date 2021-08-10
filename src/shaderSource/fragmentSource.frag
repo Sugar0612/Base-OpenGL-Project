@@ -120,10 +120,11 @@ void main() {
 	vec3 ambientColor = material.ambient * texture(material.diffuse, TexCoords).rgb;
 
 	vec3 synthLight = ambientColor;
-	//synthLight += calcLightDirectional(lightD, aNormal, cameraDir);
+	synthLight += calcLightDirectional(lightD, aNormal, cameraDir) * texture(material.diffuse, TexCoords).rgb * texture(material.specular, TexCoords).rgb;
 
-	//for(int i = 0; i < 4; ++i) synthLight += calcLightPoint(lightPt[i], aNormal, cameraDir);
+	for(int i = 0; i < 4; ++i) synthLight += calcLightPoint(lightPt[i], aNormal, cameraDir);
 
 	synthLight += calcLightSpot(lightSp, aNormal, cameraDir);
 	FragColor = vec4(synthLight, 1.0f);
+	
 }

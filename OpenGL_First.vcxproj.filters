@@ -18,15 +18,6 @@
     <ClCompile Include="opengl.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Material.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="light\lightSpot.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -36,24 +27,24 @@
     <ClCompile Include="light\lightPoint.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Mesh.cpp">
+    <ClCompile Include="Material\Material.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera\Camera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh\Mesh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader\Shader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Shader.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="stb_image.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="opengl.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Material.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="light\LightDirectional.h">
@@ -65,7 +56,16 @@
     <ClInclude Include="light\lightSpot.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Mesh.h">
+    <ClInclude Include="Material\Material.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera\Camera.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader\Shader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh\Mesh.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

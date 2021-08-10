@@ -1,6 +1,6 @@
 #define GLEW_STATIC  // 使用 glew32s.lib静态库
 #include "opengl.h"
-#include "Shader.h"
+#include "./Shader/Shader.h"
 
 int main() {
 	#pragma region Open the Window
@@ -47,6 +47,10 @@ int main() {
 		Material *material = new Material(myShader, vec3(0.2f, 0.2f, 0.2f), _Create__Texture("./sourceImage/container2.png", GL_RGBA, 0), _Create__Texture("./sourceImage/container_specular.png", GL_RGBA, 1), 32);
 	#pragma endregion
 
+	#pragma region Init Mesh
+		Mesh *mesh = new Mesh(vertices);
+#pragma endregion
+
 	#pragma region Init VAO, VBO and EBO.
 	// Create VAO and VBO  (VBO ==> VAO)
 	unsigned int VAO;
@@ -64,7 +68,7 @@ int main() {
 #pragma endregion
 
 	//tell opengl identfly the stall
-	_GL__Identfly__stall();
+	//_GL__Identfly__stall();
 
 
 	// 如果glfwWin 没有关闭 在运行状态
@@ -93,21 +97,21 @@ int main() {
 			modelMat = rotate(modelMat, (float)(glfwGetTime()) * radians(angle), vec3(0.5f, 1.0f, 0.3f));
 
 			//load Texture
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, material->diffuse);
-
-			glActiveTexture(GL_TEXTURE1);
-			glBindTexture(GL_TEXTURE_2D, material->specular);
+			//glActiveTexture(GL_TEXTURE0);
+			//glBindTexture(GL_TEXTURE_2D, material->diffuse);
+			//
+			//glActiveTexture(GL_TEXTURE1);
+			//glBindTexture(GL_TEXTURE_2D, material->specular);
 
 			// Shader Program
 			myShader->useProgram();
 
 
 			// draw use VAO
-			glBindVertexArray(VAO);
+			//glBindVertexArray(VAO);
 
 			//Drawfun call
-			glDrawArrays(GL_TRIANGLES, 0, 36);
+			//glDrawArrays(GL_TRIANGLES, 0, 36);
 
 
 			// Insert the specified Uniform.
@@ -152,6 +156,9 @@ int main() {
 			material->myShader->setUniform1i("marterial.diffuse", 0);
 			material->myShader->setUniform1i("marterial.specular", 1);
 			material->myShader->setVec1("material.shininess", 32.0f);
+
+			mesh->Draw(material->myShader);
+			break;
 		}
 
 		// enable depth_test

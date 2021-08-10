@@ -1,5 +1,5 @@
 #pragma once
-#include "Shader.h"
+#include "E:/vs C×ÊÁÏ/vs2017/OpenGL_First/OpenGL_First/Shader/Shader.h"
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
 

@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "Shader.h"
+#include "E:/vs C×ÊÁÏ/vs2017/OpenGL_First/OpenGL_First/Shader/Shader.h"
 
 using namespace std;
 using namespace glm;
@@ -28,6 +28,7 @@ public:
 	vector<unsigned int> idxes;
 	vector<Texture> textures;
 	
+	Mesh(float vertices[]);
 	Mesh(vector<Vertex> vertices_, vector<unsigned int> idx, vector<Texture> textures_);
 	void Draw(Shader *myShader);
 

@@ -135,24 +135,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Camera\Camera.cpp" />
     <ClCompile Include="light\LightDirectional.cpp" />
     <ClCompile Include="light\lightPoint.cpp" />
     <ClCompile Include="light\lightSpot.cpp" />
-    <ClCompile Include="Material.cpp" />
-    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="Material\Material.cpp" />
+    <ClCompile Include="Mesh\Mesh.cpp" />
     <ClCompile Include="opengl.cpp" />
-    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Shader\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Camera\Camera.h" />
     <ClInclude Include="light\LightDirectional.h" />
     <ClInclude Include="light\lightPoint.h" />
     <ClInclude Include="light\lightSpot.h" />
-    <ClInclude Include="Material.h" />
-    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Material\Material.h" />
+    <ClInclude Include="Mesh\Mesh.h" />
     <ClInclude Include="opengl.h" />
-    <ClInclude Include="Shader.h" />
+    <ClInclude Include="Shader\Shader.h" />
     <ClInclude Include="stb_image.h" />
   </ItemGroup>
   <ItemGroup>
