@@ -18,6 +18,7 @@
 #include "./light/lightPoint.h"
 #include "./light/lightSpot.h"
 #include "./Mesh/Mesh.h"
+#include "Model.h"
 
 using namespace::std;
 
@@ -125,32 +126,32 @@ void prcessInput_Keyboard(GLFWwindow *win) {
 		glfwSetWindowShouldClose(win, true); // ¹Ø±Õ´°¿Ú
 	}
 	else if (glfwGetKey(win, GLFW_KEY_W) == GLFW_PRESS) {
-		camer->speedZ = 0.01f;
+		camer->speedZ = 0.05f;
 		camer->set_Camera_Pos();
 		camer->speedZ = 0.0f;
 	}
 	else if (glfwGetKey(win, GLFW_KEY_S) == GLFW_PRESS) {
-		camer->speedZ = -0.01f;
+		camer->speedZ = -0.05f;
 		camer->set_Camera_Pos();
 		camer->speedZ = 0.0f;
 	}
 	else if (glfwGetKey(win, GLFW_KEY_A) == GLFW_PRESS) {
-		camer->speedX = -0.01f;
+		camer->speedX = -0.05f;
 		camer->set_Camera_Pos();
 		camer->speedX = 0.0f;
 	}
 	else if (glfwGetKey(win, GLFW_KEY_D) == GLFW_PRESS) {
-		camer->speedX = 0.01f;
+		camer->speedX = 0.05f;
 		camer->set_Camera_Pos();
 		camer->speedX = 0.0f;
 	}
 	else if (glfwGetKey(win, GLFW_KEY_Q) == GLFW_PRESS) {
-		camer->speedY = -0.01f;
+		camer->speedY = -0.05f;
 		camer->set_Camera_Pos();
 		camer->speedY = 0.0f;
 	} 
 	else if (glfwGetKey(win, GLFW_KEY_E) == GLFW_PRESS) {
-		camer->speedY = 0.01f;
+		camer->speedY = 0.05f;
 		camer->set_Camera_Pos();
 		camer->speedY = 0.0f;
 	}

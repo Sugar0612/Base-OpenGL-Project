@@ -2,7 +2,9 @@
 #include "opengl.h"
 #include "./Shader/Shader.h"
 
-int main() {
+int main(int argc, char *argv[]) {
+	string exePath = argv[0];
+
 	#pragma region Open the Window
 	glfwInit(); // 初始化第三方库 glfw
 
@@ -47,8 +49,9 @@ int main() {
 		Material *material = new Material(myShader, vec3(0.2f, 0.2f, 0.2f), _Create__Texture("./sourceImage/container2.png", GL_RGBA, 0), _Create__Texture("./sourceImage/container_specular.png", GL_RGBA, 1), 32);
 	#pragma endregion
 
-	#pragma region Init Mesh
-		Mesh *mesh = new Mesh(vertices);
+	#pragma region Init Mesh and Model
+		string path = "./model/backpack.obj";
+		Model *model = new Model(path);
 #pragma endregion
 
 	#pragma region Init VAO, VBO and EBO.
@@ -82,7 +85,7 @@ int main() {
 
 		// looper rendering ten cube.
 		for (int i = 1; i <= 10; ++i) {
-			float angle = i * 25.0f;
+			float angle = 0 * 25.0f;
 
 			// Init martix
 			mat4 modelMat = mat4(1.0f);
@@ -157,7 +160,8 @@ int main() {
 			material->myShader->setUniform1i("marterial.specular", 1);
 			material->myShader->setVec1("material.shininess", 32.0f);
 
-			mesh->Draw(material->myShader);
+			//mesh->Draw(material->myShader);
+			model->Draw(myShader);
 			break;
 		}
 
