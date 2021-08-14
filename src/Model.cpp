@@ -46,6 +46,7 @@ Mesh Model::proessMesh(aiMesh * mesh, const aiScene * scene)
 			buf.texCoords = vec2(texture.x, texture.y);
 		}
 		else {
+
 			buf.texCoords = vec2(0.0f, 0.0f);
 		}
 		vertex.emplace_back(buf);
@@ -62,13 +63,13 @@ Mesh Model::proessMesh(aiMesh * mesh, const aiScene * scene)
 	// mesh->texture
 	aiMaterial *mat = scene->mMaterials[mesh->mMaterialIndex];
 
-	vector<Texture> diffuse = loadMaterialTexture(mat, aiTextureType_DIFFUSE, "texture_diffues");
+	vector<Texture> diffuse = loadMaterialTexture(mat, aiTextureType_DIFFUSE, "texture_diffuse");
 	textures.insert(textures.end(), diffuse.begin(), diffuse.end());
 
 	vector<Texture> specular = loadMaterialTexture(mat, aiTextureType_SPECULAR, "texture_specular");
 	textures.insert(textures.end(), specular.begin(), specular.end());
 
-	return Mesh(vertex, idxes, {});
+	return Mesh(vertex, idxes, textures);
 
 }
 
@@ -104,13 +105,13 @@ vector<Texture> Model::loadMaterialTexture(aiMaterial * mat, aiTextureType type,
 // get texture id.
 unsigned int Model::GetTextrueID(const char *path)
 {
-	unsigned int texture_id = 0;
+	unsigned int texture_id;
 	glGenTextures(1, &texture_id);
 	glBindTexture(GL_TEXTURE_2D, texture_id);
 
+	stbi_set_flip_vertically_on_load(true);  // ·­×ª
 
 	string filename = this->directory + '/' + path;
-
 	int width, height, nrComponents;
 	unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
 	if (data) {
@@ -121,6 +122,9 @@ unsigned int Model::GetTextrueID(const char *path)
 
 		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
+
+
+		stbi_image_free(data);
 	}
 	else {
 		cout << filename  << " failed teuture id !" << endl;

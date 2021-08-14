@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
 	#pragma endregion
 
 	#pragma region Init Material
-		Material *material = new Material(myShader, vec3(0.2f, 0.2f, 0.2f), _Create__Texture("./sourceImage/container2.png", GL_RGBA, 0), _Create__Texture("./sourceImage/container_specular.png", GL_RGBA, 1), 32);
+		//Material *material = new Material(myShader, vec3(0.2f, 0.2f, 0.2f), _Create__Texture("./model/diffuse.jpg", GL_RGB, 0), _Create__Texture("./sourceImage/container_specular.png", GL_RGBA, 1), 32);
 	#pragma endregion
 
 	#pragma region Init Mesh and Model
@@ -55,23 +55,20 @@ int main(int argc, char *argv[]) {
 #pragma endregion
 
 	#pragma region Init VAO, VBO and EBO.
-	// Create VAO and VBO  (VBO ==> VAO)
-	unsigned int VAO;
-	_Create__init(VAO, "VAO");
+	//// Create VAO and VBO  (VBO ==> VAO)
+	//unsigned int VAO;
+	//_Create__init(VAO, "VAO");
 
-	unsigned int VBO;
-	_Create__init(VBO,  "VBO");
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); // 将 vertices 数据放到 VBO中
+	//unsigned int VBO;
+	//_Create__init(VBO,  "VBO");
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); // 将 vertices 数据放到 VBO中
 
 
-	// Create EBO (EBO ==> VAO)
-	unsigned int EBO;
-	_Create__init(EBO, "EBO");
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(index), index, GL_STATIC_DRAW);
+	//// Create EBO (EBO ==> VAO)
+	//unsigned int EBO;
+	//_Create__init(EBO, "EBO");
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(index), index, GL_STATIC_DRAW);
 #pragma endregion
-
-	//tell opengl identfly the stall
-	//_GL__Identfly__stall();
 
 
 	// 如果glfwWin 没有关闭 在运行状态
@@ -99,23 +96,8 @@ int main(int argc, char *argv[]) {
 			modelMat = translate(modelMat, cubePositions[i - 1]);
 			modelMat = rotate(modelMat, (float)(glfwGetTime()) * radians(angle), vec3(0.5f, 1.0f, 0.3f));
 
-			//load Texture
-			//glActiveTexture(GL_TEXTURE0);
-			//glBindTexture(GL_TEXTURE_2D, material->diffuse);
-			//
-			//glActiveTexture(GL_TEXTURE1);
-			//glBindTexture(GL_TEXTURE_2D, material->specular);
-
 			// Shader Program
 			myShader->useProgram();
-
-
-			// draw use VAO
-			//glBindVertexArray(VAO);
-
-			//Drawfun call
-			//glDrawArrays(GL_TRIANGLES, 0, 36);
-
 
 			// Insert the specified Uniform.
 			glUniformMatrix4fv(glGetUniformLocation(myShader->ID, "modelMat"), 1, GL_FALSE, value_ptr(modelMat));
@@ -155,10 +137,10 @@ int main(int argc, char *argv[]) {
 			myShader->setVec1("lightSp.cosPhyInner", ltspt->cosPhyInner);
 			myShader->setVec1("lightSp.cosPhyOutter", ltspt->cosPhyOutter);
 
-			material->myShader->setVec3("material.ambient", material->anbiemt);
-			material->myShader->setUniform1i("marterial.diffuse", 0);
-			material->myShader->setUniform1i("marterial.specular", 1);
-			material->myShader->setVec1("material.shininess", 32.0f);
+			myShader->setVec3("material.ambient", vec3(0.5, 0.5, 0.5));
+			//material->myShader->setUniform1i("marterial.diffuse", 0);
+			//material->myShader->setUniform1i("marterial.specular", 1);
+			myShader->setVec1("material.shininess", 32.0f);
 
 			//mesh->Draw(material->myShader);
 			model->Draw(myShader);

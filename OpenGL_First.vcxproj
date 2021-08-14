@@ -162,6 +162,7 @@
     <Text Include="shaderSource\vertexSource.vert" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="model\diffuse.jpg" />
     <Image Include="sourceImage\awesomeface.png" />
     <Image Include="sourceImage\container.jpg" />
     <Image Include="sourceImage\container2.png" />

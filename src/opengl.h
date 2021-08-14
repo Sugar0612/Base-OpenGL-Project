@@ -178,9 +178,9 @@ unsigned int _Create__Texture(const char *file, GLint internalformat, int slot) 
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
 
-	int width, height, nrchannels;
 	stbi_set_flip_vertically_on_load(true);  // ·­×ª
 
+	int width, height, nrchannels;
 	unsigned char *data = stbi_load(file, &width, &height, &nrchannels, 0);
 	if (data) {
 			glTexImage2D(GL_TEXTURE_2D, 0, internalformat, width, height, 0, internalformat, GL_UNSIGNED_BYTE, data);
@@ -194,6 +194,7 @@ unsigned int _Create__Texture(const char *file, GLint internalformat, int slot) 
 	glBindTexture(GL_TEXTURE_2D, texture);
 
 	//free
+	//glActiveTexture(GL_TEXTURE0);
 	stbi_image_free(data);
 	return texture;
 }
@@ -217,7 +218,7 @@ void _Create__init(unsigned int& V, const char *_typename) {
 
 // tell OpenGL how to recognize these coordinates.
 void _GL__Identfly__stall() {
-	// tell OpenGL it should interpret the vertex data
+	 //tell OpenGL it should interpret the vertex data
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
